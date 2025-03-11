@@ -34,6 +34,7 @@
 	<modules>
 		<module>employee-service</module>
 		<module>department-service</module>
+		<module>organization-service</module>
 	</modules>
 	
 	<build>
