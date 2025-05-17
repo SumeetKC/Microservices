@@ -2,6 +2,7 @@ package com.microservice.orderservice.controller;
 
 import java.util.List;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class OrderController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@CircuitBreaker(name = "inventory", fallbackMethod = "fallbackMethod")
 	public String placeOrder(@RequestBody OrderRequest orderRequest) {
 		orderService.placeOrder(orderRequest);
 		return "Order Placed successfully";
@@ -34,6 +36,10 @@ public class OrderController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<OrderResponse> getOrders() {
 		return orderService.getOrders();
+	}
+
+	public String fallbackMethod(OrderRequest orderRequest, RuntimeException runtimeException){
+		return "Oops! Something went wrong, please order after sometime";
 	}
 
 }
