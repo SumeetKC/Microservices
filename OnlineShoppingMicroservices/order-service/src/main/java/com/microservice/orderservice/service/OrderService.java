@@ -30,7 +30,7 @@ public class OrderService {
 	@Autowired
 	private Builder webClientBuilder;
 
-	public void placeOrder(OrderRequest orderRequest) {
+	public String placeOrder(OrderRequest orderRequest) {
 		Order order = new Order();
 		List<OrderLineItems> orderLineItemList = orderRequest.getOrderLineItemsDtoList().stream()
 				.map(this::mapToOrderLineItems).collect(Collectors.toList());
@@ -50,6 +50,7 @@ public class OrderService {
 
 		if (isAllProductsInStock) {
 			orderRepository.save(order);
+			return "Order Placed successfully";
 		} else {
 			throw new IllegalArgumentException("Product is not in stock. Please try again later!!!");
 		}
