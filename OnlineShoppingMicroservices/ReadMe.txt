@@ -18,3 +18,6 @@ body - {
                }
            ]
        }
+
+# Zipkin Url
+http://localhost:9411
